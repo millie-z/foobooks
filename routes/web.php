@@ -18,6 +18,18 @@ Route::get('/env', function () {
     dump(config('app.url'));
 });
 
+Route::get('/debugbar', function () {
+
+    $data = ['foo' => 'bar'];
+    Debugbar::info($data);
+    Debugbar::info('Current environment: '.App::environment());
+    Debugbar::error('Error!');
+    Debugbar::warning('Watch out…');
+    Debugbar::addMessage('Another message', 'mylabel');
+
+    return 'Just demoing some of the features of Debugbar';
+});
+
 
 // Homepage
 Route::get('/', 'WelcomeController');

@@ -11,18 +11,24 @@
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
+Route::get('/env', function () {
+    dump(config('app.name'));
+    dump(config('app.env'));
+    dump(config('app.debug'));
+    dump(config('app.url'));
 });
-*/
 
-//Route::view('/','welcome');
 
+// Homepage
 Route::get('/', 'WelcomeController');
+
+// Book
 Route::get('/book/', 'BookController@index');
 Route::get('/book/{category}/{title}', 'BookController@show');
 
-//Route::get('/example', 'BookController@example');
+// Pratice -- dynamically loads
+Route::any('/practice/{n?}', 'PracticeController@index');
 
+// Examples mirroring P3
 Route::get('/trivia/', 'TriviaController@index');
 Route::get('/trivia/check-answer', 'TriviaController@checkAnswer');

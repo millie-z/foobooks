@@ -36,7 +36,7 @@ Route::get('/', 'WelcomeController');
 
 // Book
 Route::get('/book/', 'BookController@index');
-Route::get('/book/{category}/{title}', 'BookController@show');
+Route::get('/book/{title}', 'BookController@show');
 
 // Pratice -- dynamically loads
 Route::any('/practice/{n?}', 'PracticeController@index');

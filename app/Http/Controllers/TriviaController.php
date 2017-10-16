@@ -8,7 +8,7 @@ class TriviaController extends Controller
 {
     public function index()
     {
-        return 'Show form to collect info from user...';
+        return view('trivia.index');
     }
 
     public function checkAnswer()

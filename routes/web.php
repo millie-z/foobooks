@@ -30,17 +30,24 @@ Route::get('/debugbar', function () {
     return 'Just demoing some of the features of Debugbar';
 });
 
-
-// Homepage
-Route::get('/', 'WelcomeController');
-
-// Book
-Route::get('/book/', 'BookController@index');
-Route::get('/book/{title}', 'BookController@show');
-
 // Pratice -- dynamically loads
 Route::any('/practice/{n?}', 'PracticeController@index');
+
+
+// Book
+Route::get('/book/create', 'BookController@create');
+Route::post('/book', 'BookController@store');
+
+Route::get('/book', 'BookController@index');
+Route::get('/book/{title}', 'BookController@show');
+
+Route::get('/search/', 'BookController@search');
+
 
 // Examples mirroring P3
 Route::get('/trivia/', 'TriviaController@index');
 Route::get('/trivia/check-answer', 'TriviaController@checkAnswer');
+
+
+// Homepage
+Route::get('/', 'WelcomeController');

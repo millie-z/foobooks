@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+@extends('layouts.master')
 
-    <title>Foobooks</title>
-    <meta charset="utf-8">
+@section('content')
 
-</head>
+<h1>Welcome to Foobooks!</h1>
 
-<body>
-    <h1>Welcome to Foobooks!</h1>
+<p>
+Never forget a book again! Foobooks is here to catalog all of your favorite reads.
+</p>
 
-</body>
-</html>
+@endsection

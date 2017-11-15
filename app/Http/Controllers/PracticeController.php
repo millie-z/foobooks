@@ -48,7 +48,7 @@ class PracticeController extends Controller
     }
 
     /**
-    *
+    * Example of querying for books with constraints using an Eloquent model
     */
     public function practice8()
     {
@@ -64,7 +64,7 @@ class PracticeController extends Controller
     }
 
     /**
-    *
+    * Example of querying for books using an Eloquent model
     */
     public function practice7()
     {
@@ -77,7 +77,7 @@ class PracticeController extends Controller
     }
 
     /**
-    *
+    * Example of adding a new book using an Eloquent model
     */
     public function practice6()
     {
@@ -98,7 +98,7 @@ class PracticeController extends Controller
     }
 
     /**
-    *
+    * Demonstration of a custom validation rule
     */
     public function practice5()
     {
@@ -109,7 +109,7 @@ class PracticeController extends Controller
 
 
     /**
-    *
+    * Example of using an external package
     */
     public function practice4()
     {
@@ -122,7 +122,7 @@ class PracticeController extends Controller
     }
 
     /**
-    *
+    * Examples writing to the Debugbar
     */
     public function practice3()
     {
@@ -131,7 +131,7 @@ class PracticeController extends Controller
 
 
     /**
-    *
+    * Purposefully create and error to view it in the error logs
     */
     public function practice2()
     {
@@ -140,7 +140,7 @@ class PracticeController extends Controller
     }
 
     /**
-    *
+    * Viewing config info
     */
     public function practice1()
     {

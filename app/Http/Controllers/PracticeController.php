@@ -9,6 +9,60 @@ use App\Book;
 
 class PracticeController extends Controller
 {
+    /**
+    * Remove any books by the author “J.K. Rowling”.
+    */
+    public function practice16 ()
+    {
+        $result = Book::where('author', '=', 'J.K. Rowling')->delete();
+    }
+
+    /**
+    * Find any books by the author Bell Hooks and update the author name to be bell hooks (lowercase).
+    */
+    public function practice15 ()
+    {
+        $book = Book::where('author', '=', 'Bell Hooks')->first();
+
+        if (!$book)
+        {
+            dump("Book(s) not found, cannot update.");
+        } else {
+            // Change author properties
+            $book->author = 'bell hooks';
+
+            // Save changes
+            $book->save();
+            dump('Update complete. Check the database to confirm.');
+        }
+    }
+
+    /**
+    * Retrieve all the books in descending order according to published date.
+    */
+    public function practice14 ()
+    {
+        $results = Book::orderBy('published', 'desc')->get();
+        dump($results->toArray());
+    }
+
+    /**
+    * Retrieve all the books in alphabetical order by title.
+    */
+    public function practice13 ()
+    {
+        $results = Book::orderBy('title')->get();
+        dump($results->toArray());
+    }
+
+    /**
+    * Retrieve the last 2 books that were added to the books table.
+    */
+    public function practice12 ()
+    {
+        $results = Book::orderBy('created_at', 'desc')->limit(2)->get();
+        dump($results->toArray());
+    }
 
     /**
     *
@@ -30,7 +84,7 @@ class PracticeController extends Controller
     */
     public function practice10()
     {
-        # First get a book to update; query to the database get a book first
+        # First, get a book to update; a query to the database to get a book first
         $book = Book::where('author', 'LIKE', '%Scott%')->first();
 
         if (!$book) {
@@ -45,6 +99,16 @@ class PracticeController extends Controller
 
             dump('Update complete; check the database to confirm the update worked.');
         }
+    }
+
+
+    /**
+    * Query all books published after 1950
+    */
+    public function practice9 ()
+    {
+        $results = Book::where('published', '>', 1950)->get();
+        dump($results->toArray());
     }
 
     /**

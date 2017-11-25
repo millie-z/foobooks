@@ -67,8 +67,14 @@ Route::any('/practice/{n?}', 'PracticeController@index');
 Route::get('/book/create', 'BookController@create');
 Route::post('/book', 'BookController@store');
 
+// Show the form the edit a specific book
+Route::get('/book/{id}/edit', 'BookController@edit');
+
+// Process the form to edit a specific book
+Route::put('/book/{id}', 'BookController@update');
+
 Route::get('/book', 'BookController@index');
-Route::get('/book/{title}', 'BookController@show');
+Route::get('/book/{id}', 'BookController@show');
 
 Route::get('/search/', 'BookController@search');
 

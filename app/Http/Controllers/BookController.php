@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Hash;
+use App\Book;
 
 class BookController extends Controller
 {
@@ -11,19 +12,42 @@ class BookController extends Controller
 
     public function index()
     {
+        /*
+        *  Old code
         $jsonPath = database_path('books.json');
         $booksJson = file_get_contents($jsonPath); //holds data
         $books = json_decode($booksJson, true); //true makes it an array rather than an object
+        */
+
+        // running queries to populate view as opposed to using json file
+        $books = Book::orderBy('title')->get();
+
+        // This is an entirely new and different query...
+        //$newBooks = Book::orderByDesc('created_at')->limit(3)->get();
+
+        // This is querying on an existing query... AKA a collection
+        $newBooks = $books->sortByDesc('created_at')->take(3);
+
         return view('book.index')->with([
-            'books' => $books
+            'books' => $books,
+            'newBooks' => $newBooks,
         ]);
     }
 
-    public function show($title = null)
+    /**
+    * GET /book/{$id}
+    */
+    public function show($id)
     {
-        dump($title);
+        $book = Book::find($id);
+
+        if (!$book)
+        {
+            return redirect('/book')->with('alert', 'Book not found');
+        }
+
 	    return view('book.show')->with([
-            'title'=> $title,
+            'book'=> $book
         ]);
         //return 'Show the book '.$title;
     }
@@ -96,16 +120,57 @@ class BookController extends Controller
         $this->validate($request, [
             'title' => 'required|min:3',
             'author' => 'required',
-            'publishedYear' => 'required|min:4|numeric'
+            'published' => 'required|min:4|numeric',
+            'purchase_link' => 'required|url',
+            'cover' => 'required|url',
         ]);
 
-        $title = $request->input('title');
+        # Add new book to the database
+        $book = new Book();
+        $book->title = $request->input('title');
+        $book->author = $request->input('author');
+        $book->published = $request->input('published');
+        $book->cover = $request->input('cover');
+        $book->purchase_link = $request->input('purchase_link');
+        $book->save();
 
-        // To do: Add code to enter book into database
-
-        return redirect('/book/create')->with([
-            'title' => $title
-        ]);
+        return redirect('/book')->with('alert', 'Your book '.$request->input('title').' was added.');
+        //return redirect('/book/create')->with([
+        //    'title' => $title
+        //]);
     }
 
+    public function edit($id)
+    {
+        $book = Book::find($id);
+
+        if(!$book)
+        {
+            return redirect('/book')->with('alert', 'Book not found');
+        }
+
+        return view('book.edit')->with(['book' => $book]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'title' => 'required|min:3',
+            'author' => 'required',
+            'published' => 'required|min:4|numeric',
+            'purchase_link' => 'required|url',
+            'cover' => 'required|url',
+        ]);
+
+        $book = Book::find($id);
+
+        $book->title = $request->input('title');
+        $book->author = $request->input('author');
+        $book->published = $request->input('published');
+        $book->cover = $request->input('cover');
+        $book->purchase_link = $request->input('purchase_link');
+        $book->save();
+
+        return redirect('/book/'.$id.'/edit')->with('alert', 'Your changes were saved.');
+    }
 }

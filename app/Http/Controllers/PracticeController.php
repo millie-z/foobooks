@@ -6,15 +6,38 @@ use Illuminate\Http\Request;
 use Debugbar;
 use cebe\markdown\MarkdownExtra;
 use App\Book;
+use App\Utilities\Practice;
 
 class PracticeController extends Controller
 {
+    /**
+    *
+    */
+    public function practice17 ()
+    {
+        $books = Book::orderBy('title')->get();
+
+        return view('book.index')->with([
+            'books' => $books
+        ]);
+    }
+
+
     /**
     * Remove any books by the author “J.K. Rowling”.
     */
     public function practice16 ()
     {
+        // Custom method created specifically for the purposes of debugging
+        Book::dump();
+
         $result = Book::where('author', '=', 'J.K. Rowling')->delete();
+
+        dump('Deleted all books where author is like J.K. Rowling');
+
+        Book::dump();
+
+        Practice::resetDatabase();
     }
 
     /**

@@ -8,8 +8,6 @@ use App\Book;
 
 class BookController extends Controller
 {
-    //
-
     public function index()
     {
         /*
@@ -19,7 +17,7 @@ class BookController extends Controller
         $books = json_decode($booksJson, true); //true makes it an array rather than an object
         */
 
-        // running queries to populate view as opposed to using json file
+        // running a query to populate view (as opposed to using json file)
         $books = Book::orderBy('title')->get();
 
         // This is an entirely new and different query...
@@ -47,7 +45,7 @@ class BookController extends Controller
         }
 
 	    return view('book.show')->with([
-            'book'=> $book
+            'book' => $book
         ]);
         //return 'Show the book '.$title;
     }
@@ -130,8 +128,8 @@ class BookController extends Controller
         $book->title = $request->input('title');
         $book->author = $request->input('author');
         $book->published = $request->input('published');
-        $book->cover = $request->input('cover');
         $book->purchase_link = $request->input('purchase_link');
+        $book->cover = $request->input('cover');
         $book->save();
 
         return redirect('/book')->with('alert', 'Your book '.$request->input('title').' was added.');

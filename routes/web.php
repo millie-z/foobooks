@@ -62,12 +62,11 @@ Route::get('/debugbar', function () {
 // Pratice -- dynamically loads
 Route::any('/practice/{n?}', 'PracticeController@index');
 
-
 // Book
 Route::get('/book/create', 'BookController@create');
 Route::post('/book', 'BookController@store');
 
-// Show the form the edit a specific book
+// Show the form to edit a specific book
 Route::get('/book/{id}/edit', 'BookController@edit');
 
 // Process the form to edit a specific book

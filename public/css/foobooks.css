@@ -26,14 +26,15 @@ body {
 }
 
 .alert {
-    background-color: yellow;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding: 5px;
-    font-weight: bold;
-    text-align: center;
+    background-color:yellow;
+    width:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    padding:5px;
+    font-weight:bold;
+    text-align:center;
+    cursor:pointer;
 }
 
 section#main {

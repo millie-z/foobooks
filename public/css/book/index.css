@@ -1,0 +1,19 @@
+#books {
+    margin-bottom:20px;
+}
+
+#newBooks {
+    background-color:Azure;
+    padding:5px;
+    margin-bottom:20px;
+}
+
+#newBooks ul {
+    list-style-type:none;
+    padding:0;
+    margin:0;
+}
+
+#newBooks h2 {
+    margin-top:0;
+}

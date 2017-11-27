@@ -62,7 +62,7 @@ Route::get('/debugbar', function () {
 // Pratice -- dynamically loads
 Route::any('/practice/{n?}', 'PracticeController@index');
 
-// Book
+// Create a new book entry
 Route::get('/book/create', 'BookController@create');
 Route::post('/book', 'BookController@store');
 
@@ -75,6 +75,10 @@ Route::put('/book/{id}', 'BookController@update');
 Route::get('/book', 'BookController@index');
 Route::get('/book/{id}', 'BookController@show');
 
+// Delete a book
+Route::get('/book/{id}/delete', 'BookController@delete');
+
+// Search page
 Route::get('/search/', 'BookController@search');
 
 

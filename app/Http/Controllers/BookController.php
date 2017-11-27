@@ -142,7 +142,7 @@ class BookController extends Controller
     {
         $book = Book::find($id);
 
-        if(!$book)
+        if (!$book)
         {
             return redirect('/book')->with('alert', 'Book not found');
         }
@@ -169,6 +169,20 @@ class BookController extends Controller
         $book->purchase_link = $request->input('purchase_link');
         $book->save();
 
-        return redirect('/book/'.$id.'/edit')->with('alert', 'Your changes were saved.');
+        return redirect('/book/'.$id.'/edit')->with('alert', 'Your changes were saved');
+    }
+
+    public function delete($id)
+    {
+        $book = Book::find($id);
+
+        if (!$book)
+        {
+            return redirect('/book')->with('alert', 'Book not found');
+        }
+
+        $book->delete();
+
+        return redirect('/book')->with('alert', 'The Book was deleted');
     }
 }

@@ -17,7 +17,7 @@
         <h2>Recently Added</h2>
         <ul>
             @foreach($newBooks as $book)
-                <li><a href='/book/{{ kebab_case($book['title']) }}'>{{ $book['title'] }}</a></li>
+                <li><a href='/book/{{ kebab_case($book['id']) }}'>{{ $book['title'] }}</a></li>
             @endforeach
         </ul>
     </aside>

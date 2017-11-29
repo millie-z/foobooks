@@ -26,15 +26,7 @@
             style='width:300px'
             alt='Foobooks Logo'></a>
 
-        {{-- ToDo: Make it so active link in nav is highlighted --}}
-        <nav>
-            <ul>
-                <li><a href='/trivia'>Trivia</a>
-                <li><a href='/book'>All Books</a>
-                <li><a href='/book/create'>Add a Book</a>
-                <li><a href='/search'>Search</a>
-            </ul>
-        </nav>
+        @include('modules.nav')
     </header>
 
     <section id='main'>
@@ -42,7 +34,7 @@
     </section>
 
     <footer>
-        <a href='https://github.com/susanBuck/foobooks'><i class='fa fa-github'></i></a>&nbsp;
+        <a href='https://github.com/milliezhou/foobooks'><i class='fa fa-github'></i></a>&nbsp;
         &copy; {{ date('Y') }}
     </footer>
 

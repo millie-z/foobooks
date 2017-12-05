@@ -16,23 +16,11 @@
 
         <label for='title'>* Title</label>
         <input type='text' name='title' id='title' value='{{ old('title', $book->title) }}'>
-        @if($errors->get('title'))
-            <ul>
-                @foreach($errors->get('title') as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        @endif
+        @include('modules.error-field', ['fieldName' => 'author'])
 
         <label for='author'>* Author</label>
-        <input type='text' name='author' id='author' value='{{ old('author', $book->author) }}'>
-        @if($errors->get('author'))
-            <ul>
-                @foreach($errors->get('author') as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        @endif
+        @include('book.authorsDropdown')
+        @include('modules.error-field', ['fieldName' => 'author'])
 
         <label for='published'>* Published Year (YYYY)</label>
         <input type='text' name='published' id='published' value='{{ old('published', $book->published) }}'>
@@ -45,6 +33,16 @@
         <label for='cover'>* Cover URL</label>
         <input type='text' name='cover' id='cover' value='{{ old('cover', $book->cover) }}'>
         @include('modules.error-field', ['fieldName' => 'cover'])
+
+        @foreach ($tagsForCheckboxes as $id => $name)
+            <input
+                type='checkbox'
+                value='{{ $id }}'
+                name='tags[]'
+                {{ (isset($tagsForThisBook) and in_array($name, $tagsForThisBook)) ? 'CHECKED' : '' }}
+            >
+            {{ $name }} <br>
+        @endforeach
 
         <input type='submit' value='Save changes' class='btn btn-primary btn-small'>
     </form>

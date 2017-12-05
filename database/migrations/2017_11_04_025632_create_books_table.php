@@ -16,9 +16,10 @@ class CreateBooksTable extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            
+
             $table->string('title');
-            $table->string('author')->nullable();
+            // This is now handled by the authors -> book table relationship
+            // $table->string('author')->nullable();
             $table->integer('published');
             $table->string('cover')->comment('URL to cover photo for the book');
             $table->string('purchase_link')->comment('Expects a url to where the book can be purchased');

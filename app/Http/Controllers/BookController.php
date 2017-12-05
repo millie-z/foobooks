@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Hash;
 use App\Book;
+use App\Author;
+use App\Tag;
 
 class BookController extends Controller
 {
@@ -106,10 +108,15 @@ class BookController extends Controller
         ]);
     }
 
+    /**
+    * GET /book/create
+    */
     public function create()
     {
+        $authorsForDropdown = Author::getForDropdown();
+
         return view('book.create')->with([
-            'title' => session('title')
+            'authorsForDropdown' => $authorsForDropdown
         ]);
     }
 
@@ -117,16 +124,20 @@ class BookController extends Controller
     {
         $this->validate($request, [
             'title' => 'required|min:3',
-            'author' => 'required',
+            'author' => 'notIn:0',
             'published' => 'required|min:4|numeric',
             'purchase_link' => 'required|url',
             'cover' => 'required|url',
         ]);
 
+        // $author = Author::find($request->input('author'));
+
         # Add new book to the database
         $book = new Book();
         $book->title = $request->input('title');
-        $book->author = $request->input('author');
+        // $book->author = $request->input('author');
+        // $book->author()->associate($author);
+        $book->author_id = $request->input('author');
         $book->published = $request->input('published');
         $book->purchase_link = $request->input('purchase_link');
         $book->cover = $request->input('cover');
@@ -147,14 +158,28 @@ class BookController extends Controller
             return redirect('/book')->with('alert', 'Book not found');
         }
 
-        return view('book.edit')->with(['book' => $book]);
+        $authorsForDropdown = Author::getForDropdown();
+        $tagsForCheckboxes = Tag::getForCheckboxes();
+
+        $tagsForThisBook = [];
+        foreach ($book->tags as $tag)
+        {
+            $tagsForThisBook[] = $tag->name;
+        }
+
+        return view('book.edit')->with([
+            'book' => $book,
+            'authorsForDropdown' => $authorsForDropdown,
+            'tagsForCheckboxes' => $tagsForCheckboxes,
+            'tagsForThisBook' => $tagsForThisBook
+        ]);
     }
 
     public function update(Request $request, $id)
     {
         $this->validate($request, [
             'title' => 'required|min:3',
-            'author' => 'required',
+            'author' => 'notIn:0',
             'published' => 'required|min:4|numeric',
             'purchase_link' => 'required|url',
             'cover' => 'required|url',
@@ -162,8 +187,10 @@ class BookController extends Controller
 
         $book = Book::find($id);
 
+        $book->tags()->sync($request->input('tags'));
+
         $book->title = $request->input('title');
-        $book->author = $request->input('author');
+        $book->author_id = $request->input('author');
         $book->published = $request->input('published');
         $book->cover = $request->input('cover');
         $book->purchase_link = $request->input('purchase_link');
@@ -181,8 +208,23 @@ class BookController extends Controller
             return redirect('/book')->with('alert', 'Book not found');
         }
 
-        $book->delete();
+        return view('book.delete')->with([
+            'book' => $book,
+            'previousUrl' => url()->previous() == url()->current() ? '/book' : url()->previous(),
+        ]);
+    }
 
-        return redirect('/book')->with('alert', 'The Book was deleted');
+    public function destroy($id)
+    {
+        $book = Book::find($id);
+
+        if (!$book)
+        {
+            return redirect('/book')->with('alert', 'Book not found');
+        }
+
+        $book->tags()->detach();
+
+        return redirect('/book')->with('alert', $book->title.'The Book was removed.');
     }
 }

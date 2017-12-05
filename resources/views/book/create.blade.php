@@ -16,23 +16,13 @@
 
         <label for='title'>* Title</label>
         <input type='text' name='title' id='title' value='{{ old('title', 'Green Eggs & Ham') }}'>
-        @if($errors->get('title'))
-            <ul>
-                @foreach($errors->get('title') as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        @endif
+        @include('modules.error-field', ['fieldName' => 'title'])
 
         <label for='author'>* Author</label>
-        <input type='text' name='author' id='author' value='{{ old('author', 'Dr. Seuss') }}'>
-        @if($errors->get('author'))
-            <ul>
-                @foreach($errors->get('author') as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        @endif
+        {{-- <input type='text' name='author' id='author' value='{{ old('author', 'Dr. Seuss') }}'> --}}
+
+        @include('book.authorsDropdown')
+        @include('modules.error-field', ['fieldName' => 'author'])
 
         <label for='published'>* Published Year (YYYY)</label>
         <input type='text' name='published' id='published' value='{{ old('published', '1960') }}'>

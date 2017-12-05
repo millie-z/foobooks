@@ -6,12 +6,93 @@ use Illuminate\Http\Request;
 use Debugbar;
 use cebe\markdown\MarkdownExtra;
 use App\Book;
+use App\Author;
 use App\Utilities\Practice;
 
 class PracticeController extends Controller
 {
     /**
-    *
+    * Retrieve many books with its tags; EAGER LOADING
+    */
+    public function practice26 ()
+    {
+        $books = Book::with('tags')->get();
+
+        foreach ($books as $book)
+        {
+            dump($book->title.' is tagged with: ');
+            foreach ($book->tags as $tag)
+            {
+                dump($tag->name.' ');
+            }
+        }
+    }
+
+    /**
+    * Retrieve single book with its tags
+    */
+    public function practice25 ()
+    {
+        $book = Book::where('title', '=', 'The Great Gatsby')->first();
+
+        dump($book->title.' is tagged with: ');
+        foreach ($book->tags as $tag)
+        {
+            dump($tag->name);
+        }
+    }
+
+    /**
+    * Join related author data with the books query; EAGER LOADING
+    */
+    public function practice24 ()
+    {
+        # Eager load the author with the book
+        $books = Book::with('author')->get();
+
+        foreach ($books as $book) {
+            dump($book->author->first_name.' '.$book->author->last_name.' wrote '.$book->title);
+        }
+
+        dump($books->toArray());
+    }
+
+    /**
+    * Reads author information from first entry in query
+    */
+    public function practice23 ()
+    {
+        # Get the first book as an example
+        $book = Book::first();
+
+        # Get the author from this book using the "author" dynamic property
+        # "author" corresponds to the the relationship method defined in the Book model
+        $author = $book->author;
+
+        # Output
+        dump($book->title.' was written by '.$author->first_name.' '.$author->last_name);
+        dump($book->toArray());
+    }
+
+    /**
+    * Creates new book and associates with author
+    */
+    public function practice22 ()
+    {
+        $author = Author::where('first_name', '=', 'J.K.')->first();
+
+        $book = new Book;
+        $book->title = "Fantastic Beasts and Where to Find Them";
+        $book->published = 2017;
+        $book->cover = 'http://prodimage.images-bn.com/pimages/9781338132311_p0_v2_s192x300.jpg';
+        $book->purchase_link = 'http://www.barnesandnoble.com/w/fantastic-beasts-and-where-to-find-them-j-k-rowling/1004478855';
+        $book->author()->associate($author); # <--- Associate the author with this book
+        $book->save();
+        dump($book->toArray());
+    }
+
+    /**
+    * Queries all books and orders by title
     */
     public function practice17 ()
     {

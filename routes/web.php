@@ -77,6 +77,7 @@ Route::get('/book/{id}', 'BookController@show');
 
 // Delete a book
 Route::get('/book/{id}/delete', 'BookController@delete');
+Route::delete('/book/{id}', 'BookController@destroy');
 
 // Search page
 Route::get('/search/', 'BookController@search');

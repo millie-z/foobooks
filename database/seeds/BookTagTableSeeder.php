@@ -24,12 +24,13 @@ class BookTagTableSeeder extends Seeder
 
          # Now loop through the above array, creating a new pivot for each book to tag
          foreach ($books as $title => $tags)
-            {
+        {
              # First get the book
              $book = Book::where('title', 'like', $title)->first();
 
              # Now loop through each tag for this book, adding the pivot
-             foreach ($tags as $tagName) {
+             foreach ($tags as $tagName)
+             {
                  $tag = Tag::where('name', 'LIKE', $tagName)->first();
 
                  # Connect this tag to this book
